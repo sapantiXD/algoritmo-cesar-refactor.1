@@ -40,20 +40,18 @@ public class CaesarCipher {
         return cipher.toString();
     }
     
-    public static String decipher(String text, int shift) {
-        StringBuilder decipher = new StringBuilder();
-        char newCharToAddToDecipher;
-        int shiftToApply, currentChar;
-        shift = -shift % ALPHABET_LENGTH;
-        
-        for (int i = 0; i < text.length(); i++) {
-            currentChar = (int) text.charAt(i);
-            shiftToApply = isOutOfAlphabet(currentChar, shift) ? 
-                          shift + ALPHABET_LENGTH : shift;
-            newCharToAddToDecipher = (char) (currentChar + shiftToApply);
-            decipher.append(newCharToAddToDecipher);
+    public static String cipher(String text, int shift) {
+        int normalizedShift = shift % ALPHABET_LENGTH;
+        StringBilder result = new StringBuilder();
+
+        for (char character = text.toCharArray();) {
+           result.append(ShiftCharacter(character, normalizedShift));
         }
-        return decipher.toString();
+        return cipher.toString();
+    }
+    
+    public static String decipher(String text, int shift) {
+        return cipher(text, -shift);
     }
     
     public static void main(String[] args) {
