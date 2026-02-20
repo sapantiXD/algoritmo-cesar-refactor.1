@@ -9,19 +9,19 @@ public class CaesarCipher {
         static final int LOWERCASE_END = 122;
     }
     
-    private static boolean isUpperCaseLetterOutOfRange(int charCode, int shift) {
-        return charCode >= Letters.A && charCode <= Letters.Z && 
-               (charCode + shift > Letters.Z || charCode - shift < Letters.A);
+    private static boolean isOutOfRange(int charCode, int shift, int start, int end) {
+        return charCode >= start && charCode <= end && 
+               (charCode + shift > end || charCode - shift < start);
     }
     
-    private static boolean isLowerCaseOutOfRange(int charCode, int shift) {
-        return charCode >= Letters.a && charCode <= Letters.z && 
-               (charCode + shift > Letters.z || charCode - shift < Letters.a);
-    }
+    private static char ShiftCharacter(char character, int shift) {
+        int effectiveShift = isOutOfAlphabet(character, shift) ? shift - ALPHABET_LENGTH : shift;
+        return (char) (character + effectiveShift);
+     }
     
-    private static boolean isOutOfAlphabet(int charCode, int shift) {
-        return isUpperCaseLetterOutOfRange(charCode, shift) || 
-               isLowerCaseOutOfRange(charCode, shift);
+     private static boolean isOutOfAlphabet(int charCode, int shift) {
+        return isOutRange(charCode, shift, Letters.UPPERCASE_START, Letters.UPPERCASE_END) || 
+               isOutRange(charCode, shift, Letters.LOWERCASE_START, Letters.LOWERCASE_END);
     }
     
     public static String cipher(String text, int shift) {
